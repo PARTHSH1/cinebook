@@ -97,10 +97,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # CORS — allow React dev server
-CORS_ALLOWED_ORIGINS = config(
-    'CORS_ALLOWED_ORIGINS',
-    default='http://localhost:3000,http://localhost:5173'
-).split(',')
+CORS_ALLOWED_ORIGINS = True
 CORS_ALLOW_CREDENTIALS = True
 
 # DRF
