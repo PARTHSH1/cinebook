@@ -26,6 +26,7 @@ INSTALLED_APPS = [
     'seats',
     'bookings',
     'payments',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 MIDDLEWARE = [
