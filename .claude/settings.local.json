@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(python manage.py check)",
+      "Bash(python -c \"from payments.serializers import InitiatePaymentSerializer; print\\(''Serializer import OK''\\)\")",
+      "Bash(python -c \"from payments.views import InitiatePaymentView; print\\(''View import OK''\\)\")",
+      "Bash(pip install:*)",
+      "Bash(python -c \"import django; import os; os.environ.setdefault\\(''DJANGO_SETTINGS_MODULE'', ''cinebook.settings''\\); django.setup\\(\\); from payments.views import InitiatePaymentView; print\\(''View import OK''\\)\")",
+      "Bash(python manage.py runserver 8000)",
+      "Bash(curl -s http://localhost:8000/api/)",
+      "Bash(curl -s http://localhost:8000/api/payments/initiate/)",
+      "Bash(curl:*)",
+      "Bash(findstr \"6379\")"
+    ]
+  }
+}
