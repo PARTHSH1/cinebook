@@ -14,3 +14,13 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # Only serve media in development
 if DEBUG:
     from django.conf.urls.static import static
+# Celery — use eager mode if no Redis (tasks run synchronously, no broker needed)
+REDIS_URL = config('REDIS_URL', default=None)
+
+if REDIS_URL:
+    CELERY_BROKER_URL = REDIS_URL
+    CELERY_RESULT_BACKEND = REDIS_URL
+    CELERY_TASK_ALWAYS_EAGER = False
+else:
+    CELERY_TASK_ALWAYS_EAGER = True   # run tasks inline, no broker
+    CELERY_TASK_EAGER_PROPAGATES = False
