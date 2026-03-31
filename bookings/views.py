@@ -17,17 +17,19 @@ class CreateBookingView(generics.CreateAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def create(self, request, *args, **kwargs):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        booking = serializer.save()
-        # Trigger async confirmation email
+    serializer = self.get_serializer(data=request.data)
+    serializer.is_valid(raise_exception=True)
+    booking = serializer.save()
+    # Fire async email — silently skip if Redis not available
+    try:
         from .tasks import send_booking_confirmation
         send_booking_confirmation.delay(booking.id)
-        return Response(
-            BookingSerializer(booking).data,
-            status=status.HTTP_201_CREATED
-        )
-
+    except Exception:
+        pass  # Redis not available on free tier — email skipped
+    return Response(
+        BookingSerializer(booking).data,
+        status=status.HTTP_201_CREATED
+    )
 
 class MyBookingsView(generics.ListAPIView):
     """
